@@ -5,3 +5,5 @@ superposts/__pycache__
 superposts/migrations
 templates/__pycache__
 templates/migrations
+selenium
+selenium/*

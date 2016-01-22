@@ -1,5 +1,6 @@
 import unittest
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 import django
 
 HOST = 'http://127.0.0.1:8000'
@@ -41,6 +42,25 @@ class TestSuperPosts(unittest.TestCase):
             'Super Posts',
             heading_superposts
             )
+        '''
+        Asih kemudian mengepost untuk pertama kalinya
+        '''
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertEqual(
+            inputbox.get_attribute('placeholder'),
+            'Apa yang anda rasakan?'
+            )
+        '''
+        Dia mengetikkan "Hai! Aku asih.."
+        '''
+        inputbox.send_keys("Hai! Aku asih..")
+        '''
+        Ketika dia enter, halaman terupdate dan terdapat tulisan
+        "Hai! Aku asih.." dalam list posts
+        '''
+        inputbox.send_keys(Keys.ENTER)
+        list_posts = self.browser.find_element_by_id("id_list_posts")
+        
 
         
 if __name__ == "__main__":
