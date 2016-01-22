@@ -1,4 +1,11 @@
 {% extends "home/base.html" %}
 {% block page_body %}
 <h1>Super Posts</h1>
+<form class="form" method="POST">{% csrf_token %}
+<input type="text" name="item_text" id="id_new_item" class="form-control" placeholder="Apa yang kamu rasakan?" />
+<button class="btn btn-danger">Post it</button>
+</form>
+<div id="id_list_posts">
+<div>{{ new_item_text }}</div>
+</div>
 {% endblock %}

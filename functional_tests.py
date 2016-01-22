@@ -48,7 +48,7 @@ class TestSuperPosts(unittest.TestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
-            'Apa yang anda rasakan?'
+            'Apa yang kamu rasakan?'
             )
         '''
         Dia mengetikkan "Hai! Aku asih.."
@@ -59,8 +59,33 @@ class TestSuperPosts(unittest.TestCase):
         "Hai! Aku asih.." dalam list posts
         '''
         inputbox.send_keys(Keys.ENTER)
+
+        import time
+        time.sleep(10)
         list_posts = self.browser.find_element_by_id("id_list_posts")
-        
+        rows = self.browser.find_elements_by_tag_name('div')
+        self.assertTrue(
+            any(row.text == "Hai! Aku asih.." for row in rows),
+            "New post item did not appear in list"
+            )
+
+        '''
+        Asih posting lagi apa yang dia rasakan, sepertinya lagi galau dia.
+        '''
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Bosen neh, gak ada yang ngajak jalan :)')
+        inputbox.send_keys(Keys.ENTER)
+
+        '''
+        Halaman terupdate lagi, dan dia melihat semua apa yang telah diposting
+        '''
+        list_posts = self.browser.find_element_by_id('id_list_posts')
+        rows = list_posts.find_elements_by_tag_name('div')
+        self.assertIn('Hai! Aku asih..', [row.text for row in rows])
+        self.assertIn(
+            'Bosen neh, gak ada yang ngajak jalan',
+            [row.text for row in rows]
+            )
 
         
 if __name__ == "__main__":
