@@ -8,16 +8,36 @@ from apps.views import home_page
 from apps.models import Item
 
 # Create your tests here.
+class NewPostTest(TestCase):
+
+	def test_home_page_simpan_POST_request(self):
+		self.client.post(
+			'/posts/new/',
+			data={'item_text': 'A new post item'}
+			)
+
+		self.assertEqual(Item.objects.count(), 1)
+		new_item = Item.objects.first()
+		self.assertEqual(new_item.text, 'A new post item')
+
+	def test_home_page_redirect_setelah_POST(self):
+		response = self.client.post(
+			'/posts/new/',
+			data={'item_text': 'A new post item'}
+			)
+
+		self.assertRedirects(response, '/posts/posts-your-heart-with-god/')
+
+
+class PostViewTest(TestCase):
+
+	def test_pakai_post_template(self):
+		response = self.client.get('/posts/posts-your-heart-with-god/')
+		self.assertTemplateUsed(response, 'home/post.html')
+
+
+
 class HomePageTest(TestCase):
-
-	def test_untuk_mengetes_testcase(self):
-		'''2 x 2 = 4'''
-		self.assertEqual(4, 2*2)
-
-	def test_home_page(self):
-		'''cek eksistensi function home page'''
-		found = resolve('/')
-		self.assertEqual(found.func, home_page)
 
 	def test_html_home_page(self):
 		'''cek html pada home page'''
@@ -32,37 +52,15 @@ class HomePageTest(TestCase):
 		response = home_page(request)
 		self.assertEqual(response.status_code, 200)
 
-	def test_home_page_simpan_POST_request(self):
-		request = HttpRequest()
-		request.method = 'POST'
-		request.POST['item_text'] = 'A new post item'
-
-		response = home_page(request)
-
-		self.assertEqual(Item.objects.count(), 1)
-		new_item = Item.objects.first()
-		self.assertEqual(new_item.text, 'A new post item')
-
-	def test_home_page_redirect_setelah_POST(self):
-		request = HttpRequest()
-		request.method = 'POST'
-		request.POST['item_text'] = 'A new post item'
-
-		response = home_page(request)
-
-		self.assertEqual(response.status_code, 302)
-		self.assertEqual(response['location'], '/')
-
 	def test_home_page_tampilkan_semua_list_item_post(self):
 		Item.objects.create(text='posted 1')
 		Item.objects.create(text='posted 2')
 
-		request = HttpRequest()
-		response = home_page(request)
+		response = self.client.get('/posts/posts-your-heart-with-god/')
 
-		self.assertIn('posted 1', response.content.decode())
-		self.assertIn('posted 2', response.content.decode())
-		
+		self.assertContains(response, 'posted 1')
+		self.assertContains(response, 'posted 2')
+
 
 
 class ItemModelTest(TestCase):

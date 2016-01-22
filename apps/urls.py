@@ -23,5 +23,7 @@ from apps import views
 
 urlpatterns = [
 	url(r'^$', views.home_page, name='home'),
+    url(r'^posts/posts-your-heart-with-god/$', views.view_post, name='view_post'),
+    url(r'^posts/new/$', views.new_post, name='new_post'),
     url(r'^admin/', admin.site.urls),
 ]

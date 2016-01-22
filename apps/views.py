@@ -5,14 +5,14 @@ from apps.models import Item
 
 # Create your views here.
 def home_page(request):
-	if request.method == 'POST':
-		Item.objects.create(text=request.POST['item_text'])
-		return redirect('/')
-	
-	items = Item.objects.all()
+	return render(request, "home/index.html")
 
-	return render(request,
-		"home/index.html",
-		{
-			'items': items,
-		})
+
+def view_post(request):
+	items = Item.objects.all()
+	return render(request, 'home/post.html', {'items':items})
+
+
+def new_post(request):
+	Item.objects.create(text=request.POST['item_text'])
+	return redirect('/posts/posts-your-heart-with-god/')

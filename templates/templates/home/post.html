@@ -1,0 +1,12 @@
+{% extends 'home/base.html' %}
+{% block page_body %}
+<h1>Posts your heart now??</h1>
+<form method="POST" action="{% url 'new_post' %}">{% csrf_token %}
+<input name="item_text" class="form-control" id="id_new_item" placeholder="Apa yang kamu rasakan?" />
+</form>
+<div id="id_list_posts">
+{% for item in items %}
+    <div>{{ item.text }}</div>
+{% endfor %}
+</div>
+{% endblock %}
