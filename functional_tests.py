@@ -19,6 +19,11 @@ class TestSuperPosts(unittest.TestCase):
     def get(self, url='/'):
         '''liat website'''
         self.browser.get(HOST + url)
+
+    def check_for_now_in_list_table(self, row_text):
+        posts = self.browser.find_element_by_id('id_list_posts')
+        rows = posts.find_elements_by_tag_name('div')
+        self.assertIn(row_text, [row.text for row in rows])
     
     def test_website(self):
         '''
@@ -59,15 +64,7 @@ class TestSuperPosts(unittest.TestCase):
         "Hai! Aku asih.." dalam list posts
         '''
         inputbox.send_keys(Keys.ENTER)
-
-        import time
-        time.sleep(10)
-        list_posts = self.browser.find_element_by_id("id_list_posts")
-        rows = self.browser.find_elements_by_tag_name('div')
-        self.assertTrue(
-            any(row.text == "Hai! Aku asih.." for row in rows),
-            "New post item did not appear in list"
-            )
+        self.check_for_now_in_list_table("Hai! Aku asih..")
 
         '''
         Asih posting lagi apa yang dia rasakan, sepertinya lagi galau dia.
@@ -81,11 +78,9 @@ class TestSuperPosts(unittest.TestCase):
         '''
         list_posts = self.browser.find_element_by_id('id_list_posts')
         rows = list_posts.find_elements_by_tag_name('div')
-        self.assertIn('Hai! Aku asih..', [row.text for row in rows])
-        self.assertIn(
-            'Bosen neh, gak ada yang ngajak jalan',
-            [row.text for row in rows]
-            )
+        self.check_for_now_in_list_table("Hai! Aku asih..")
+        self.check_for_now_in_list_table("Bosen neh, gak ada yang ngajak jalan :)")
+        
 
         
 if __name__ == "__main__":

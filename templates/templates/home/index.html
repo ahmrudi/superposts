@@ -6,6 +6,8 @@
 <button class="btn btn-danger">Post it</button>
 </form>
 <div id="id_list_posts">
-<div>{{ new_item_text }}</div>
+{% for item in items %}
+    <div>{{ item.text }}</div>
+{% endfor %}
 </div>
 {% endblock %}
