@@ -7,3 +7,5 @@ templates/__pycache__
 templates/migrations
 selenium
 selenium/*
+*.pyc
+*/*.pyc
