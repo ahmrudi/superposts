@@ -123,7 +123,7 @@ class TestSuperPosts(LiveServerTestCase):
         Petot mencari postingan asih yang telah lalu karena dia penasaran
         '''
         self.assertNotEqual(petot_post_url, asih_post_url)
-        page_text = self.browser.find_elements_by_tag_name('body').text
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Hai! Aku asih..', page_text)
         self.assertIn('Asih lagi ngapain ya hari ini???', page_text)
 
