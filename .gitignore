@@ -1,3 +1,7 @@
 db.sqlite3
 apps/__pycache__
-superposts/__pycache__/*
+apps/migrations
+superposts/__pycache__
+superposts/migrations
+templates/__pycache__
+templates/migrations
